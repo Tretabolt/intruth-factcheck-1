@@ -1,6 +1,6 @@
-# Keys (uncomment to protect):
-# src/background/service-worker.js
-# src/offscreen/offscreen.js
+# Keys (uncomment after configuring):
+src/background/service-worker.js
+src/offscreen/offscreen.js
 
 # OS
 .DS_Store

@@ -103,33 +103,35 @@ async function searchWeb(query, retries = 2) {
   }
 }
 
-// ── Claude ────────────────────────────────────────────────────────────────────
+// ── OpenRouter (Claude) ───────────────────────────────────────────────────────
 
 async function callClaude(userMessage, systemPrompt) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
+      'Authorization': 'Bearer ' + ANTHROPIC_KEY,
+      'HTTP-Referer': 'https://github.com/Tretabolt/intruth-factcheck-1',
+      'X-Title': 'InTruth FactCheck',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'anthropic/claude-3.5-haiku:beta',
       max_tokens: 768,
       temperature: 0,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userMessage }],
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMessage },
+      ],
     }),
   });
   const data = await res.json();
   if (data.error) {
-    const msg = data.error.message || 'Unknown API error';
-    console.error('[claude] API error:', msg);
-    if (activeTabId) chrome.tabs.sendMessage(activeTabId, { type: 'PIPELINE_ERROR', message: msg }).catch(() => {});
+    const msg = data.error.message || data.error || 'Unknown API error';
+    console.error('[openrouter] API error:', msg);
+    if (activeTabId) chrome.tabs.sendMessage(activeTabId, { type: 'PIPELINE_ERROR', message: String(msg) }).catch(() => {});
     return '';
   }
-  const raw = data.content?.[0]?.text?.trim() || '';
+  const raw = data.choices?.[0]?.message?.content?.trim() || '';
   return raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
 }
 
