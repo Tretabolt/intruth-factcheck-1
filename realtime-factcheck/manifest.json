@@ -13,6 +13,7 @@
   ],
 
   "host_permissions": [
+    "https://openrouter.ai/*",
     "https://api.anthropic.com/*",
     "https://google.serper.dev/*",
     "https://fonts.googleapis.com/*",
