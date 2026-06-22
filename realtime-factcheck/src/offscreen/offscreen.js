@@ -2,7 +2,7 @@
 // Captures tab audio via tabCapture and streams to Deepgram WebSocket.
 // Deepgram handles transcription — no Web Speech API.
 
-const DEEPGRAM_KEY = '';
+const DEEPGRAM_KEY = '14b41a49d7e42d3688884663e977e48f7e0f20c8';
 
 let mediaStream = null;
 let audioContext = null;

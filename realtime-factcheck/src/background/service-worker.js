@@ -6,7 +6,7 @@
 // 6.12.2026 -- switch to deepgram; too many conflicts w/ webaudio
 
 let ANTHROPIC_KEY = '';
-const SERPER_KEY = '';
+const SERPER_KEY = 'cfc076ca6df5c06f2c0453c7555f04a431b10fb9';
 
 async function loadKeys() {
   return new Promise(resolve => {
